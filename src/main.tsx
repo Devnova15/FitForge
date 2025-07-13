@@ -1,10 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import LoginPage from './pages/login.tsx'
 import './index.css'
+import {App} from "@/App.tsx";
+import {BrowserRouter} from "react-router";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <LoginPage />
-  </React.StrictMode>,
+    <React.StrictMode>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    </React.StrictMode>,
 )
