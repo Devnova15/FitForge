@@ -13,6 +13,7 @@ export function App () {
                     <Route index path={ROUTS.HOME} element={<Home/>}/>
                     <Route path={ROUTS.LOGIN} element={<LoginPage/>}/>
                     <Route path={ROUTS.REGISTER} element={<RegisterPage/>}/>
+                    
             </Routes>
         <ToastContainer autoClose={1000}/>
     </>
