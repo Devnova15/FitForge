@@ -1,13 +1,12 @@
-import { ROUTS } from "@/routes/routes";
-import {Navigate} from "react-router";
-import { Layout } from "@/components/Layout";
+// import { ROUTS } from "@/routes/routes";
+// import {Navigate, Outlet} from "react-router";
 
 export const ProtectedRoute = () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
+    //
+    // if (!token) {
+    //     return <Navigate to={ROUTS.LOGIN} replace />;
+    // }
 
-    if (!token) {
-        return <Navigate to={ROUTS.LOGIN} replace />;
-    }
-
-    return <Layout />;
+    // return <Outlet />;
 };

@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card.tsx"
 import {Input} from "@/components/ui/input.tsx"
 import {Label} from "@/components/ui/label.tsx"
-import {Link} from "react-router";
 import {ROUTS} from "@/routes/routes.tsx";
+import {Link} from "react-router";
 
 export function RegisterForm({
                                  className,

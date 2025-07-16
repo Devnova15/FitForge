@@ -23,7 +23,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { ROUTS } from "@/routes/routes"
 
 const data = {
   user: {
@@ -34,41 +33,45 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: ROUTS.HOME,
+      url: "/",
       icon: Square,
       isActive: true,
       items: [],
     },
     {
       title: "Account",
-      url: ROUTS.ACCOUNT,
+      url: "/account",
       icon: Bot,
       items: [],
     },
     {
       title: "Saved",
-      url: ROUTS.SAVED,
+      url: "#",
       icon: BookOpen,
       items: [],
     },
     {
       title: "Edit",
-      url: ROUTS.EDIT,
+      url: "#",
       icon: Frame,
       items: [],
     },
     {
       title: "Settings",
-      url: ROUTS.SETTINGS,
+      url: "#",
       icon: Settings2,
       items: [
         {
           title: "Profile",
-          url: ROUTS.PROFILE,
+          url: "#",
         },
         {
-          title: "Dashboard",
-          url: ROUTS.DASHBOARD,
+          title: "Membership",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
         },
       ],
     },
