@@ -16,6 +16,22 @@ export function LoginForm({
                               className,
                               ...props
                           }: React.ComponentProps<"div">) {
+
+    const onSubmit = async (event) => {
+        event.preventDefault()
+
+        console.log("test");
+
+        const res = await fetch('http://localhost:4000/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({loginOrEmail: 'admin', password: 'admin123'})
+        })
+        const data = await res.json()
+        console.log(data)
+    }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -26,7 +42,7 @@ export function LoginForm({
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={e => onSubmit(e)}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="email">Email</Label>

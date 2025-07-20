@@ -1,5 +1,5 @@
 // import { ROUTS } from "@/routes/routes";
-// import {Navigate, Outlet} from "react-router";
+import {Outlet} from "react-router";
 
 export const ProtectedRoute = () => {
     // const token = localStorage.getItem("token");
@@ -8,5 +8,5 @@ export const ProtectedRoute = () => {
     //     return <Navigate to={ROUTS.LOGIN} replace />;
     // }
 
-    // return <Outlet />;
+    return <Outlet />;
 };
