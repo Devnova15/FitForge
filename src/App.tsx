@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { ROUTS } from "@/routes/routes.tsx";
 import { ProtectedRoute } from "@/auth/ProtectedRoute.tsx";
 import {Route, Routes} from "react-router";
+import { Layout } from "@/components/Layout";
 
 export function App() {
     return (
@@ -15,13 +16,15 @@ export function App() {
                 <Route path={ROUTS.REGISTER} element={<RegisterPage />} />
 
                 <Route element={<ProtectedRoute />}>
-                    <Route path={ROUTS.HOME} element={<Home />} />
-                    <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>} />
-                    <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>} />
-                    <Route path={ROUTS.SETTINGS} element={<div>Settings Page</div>} />
-                    <Route path={ROUTS.ACCOUNT} element={<Account />} />
-                    <Route path={ROUTS.SAVED} element={<div>Saved Page</div>} />
-                    <Route path={ROUTS.EDIT} element={<div>Edit Page</div>} />
+                    <Route element={<Layout />}>
+                        <Route path={ROUTS.HOME} element={<Home />} />
+                        <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>} />
+                        <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>} />
+                        <Route path={ROUTS.SETTINGS} element={<div>Settings Page</div>} />
+                        <Route path={ROUTS.ACCOUNT} element={<Account />} />
+                        <Route path={ROUTS.SAVED} element={<div>Saved Page</div>} />
+                        <Route path={ROUTS.EDIT} element={<div>Edit Page</div>} />
+                    </Route>
                 </Route>
             </Routes>
 
