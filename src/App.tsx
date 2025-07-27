@@ -12,7 +12,8 @@ import Limits from "@/pages/Settings/Limits";
 import { ToastContainer } from "react-toastify";
 import { ROUTS } from "@/routes/routes.tsx";
 import { ProtectedRoute } from "@/auth/ProtectedRoute.tsx";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router";
+import { Layout } from "@/components/Layout";
 
 export function App() {
     return (
@@ -24,7 +25,7 @@ export function App() {
                     <Route path={ROUTS.HOME} element={<Home />} />
                     <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>} />
                     <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>} />
-                    
+
 <Route path={ROUTS.SETTINGS.ROOT} element={<div>Settings Page</div>} />
 <Route path={ROUTS.SETTINGS.GENERAL} element={<General />} />
 <Route path={ROUTS.SETTINGS.TEAM} element={<Team />} />
@@ -38,6 +39,15 @@ export function App() {
 
 
 
+                    <Route element={<Layout />}>
+                        <Route path={ROUTS.HOME} element={<Home />} />
+                        <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>} />
+                        <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>} />
+                        <Route path={ROUTS.SETTINGS} element={<div>Settings Page</div>} />
+                        <Route path={ROUTS.ACCOUNT} element={<Account />} />
+                        <Route path={ROUTS.SAVED} element={<div>Saved Page</div>} />
+                        <Route path={ROUTS.EDIT} element={<div>Edit Page</div>} />
+                    </Route>
                 </Route>
             </Routes>
 

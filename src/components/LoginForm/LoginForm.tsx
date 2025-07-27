@@ -11,26 +11,52 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Link} from "react-router";
 import {ROUTS} from "@/routes/routes.tsx";
+import {apiService} from "@/api/api";
+import {Quries} from "@/api/quries";
+import {useState} from "react";
+import {toast} from "react-toastify";
 
 export function LoginForm({
                               className,
                               ...props
                           }: React.ComponentProps<"div">) {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = async (event) => {
-        event.preventDefault()
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [id]: value
+        }));
+    };
 
-        console.log("test");
+    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsLoading(true);
 
-        const res = await fetch('http://localhost:4000/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({loginOrEmail: 'admin', password: 'admin123'})
-        })
-        const data = await res.json()
-        console.log(data)
+        try {
+            const data = await apiService.post(Quries.API.USERS.LOGIN, {
+                loginOrEmail: formData.email,
+                password: formData.password
+            });
+
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                toast.success('Login successful!');
+                window.location.href = ROUTS.HOME;
+            } else {
+                toast.error('Login failed. No token received.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            toast.error('Login failed. Please check your credentials.');
+        } finally {
+            setIsLoading(false);
+        }
     }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -50,6 +76,8 @@ export function LoginForm({
                                     id="email"
                                     type="email"
                                     placeholder="m@example.com"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     required
                                 />
                             </div>
@@ -63,11 +91,21 @@ export function LoginForm({
                                         Forgot your password?
                                     </a>
                                 </div>
-                                <Input id="password" type="password" required/>
+                                <Input 
+                                    id="password" 
+                                    type="password" 
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
                             <div className="flex flex-col gap-3">
-                                <Button type="submit" className="w-full">
-                                    Login
+                                <Button 
+                                    type="submit" 
+                                    className="w-full"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Logging in...' : 'Login'}
                                 </Button>
                                 <Button variant="outline" className="w-full">
                                     Login with Google
