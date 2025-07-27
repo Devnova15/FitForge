@@ -1,20 +1,23 @@
+
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Award, Image, Plus, MinusCircle, PlusCircle} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {useState} from "react";
 import {apiService} from "@/api/api";
 import {Quries} from "@/api/quries";
+import useAwards from "@/api/useAwards/useAwards";
 
 export default function Account() {
     const [activeTab, setActiveTab] = useState("posts");
     const [weightValue, setWeightValue] = useState(0);
+    const { awards, loading, error } = useAwards();
 
     const uploadAwards = async () => {
         const awardsData = [
             {
                 title: "Early Bird",
                 description: "You started your day early 5 times in a row!",
-                type: "streak",                 // Награда за ранний подъём 5 дней подряд
+                type: "streak",
                 threshold: 5,
                 icon: "AlarmClock",
                 imageUrl: "../awardsImg/alarm-clock-time-svgrepo-com.svg",
@@ -24,7 +27,7 @@ export default function Account() {
             {
                 title: "First Badge",
                 description: "You've earned your very first badge!",
-                type: "achievement",            // Награда за получение первой ачивки
+                type: "achievement",
                 threshold: 1,
                 icon: "Badge",
                 imageUrl: "../awardsImg/badge-svgrepo-com.svg",
@@ -34,7 +37,7 @@ export default function Account() {
             {
                 title: "10-Day Streak",
                 description: "You have logged in for 10 days in a row!",
-                type: "streak",                 // Награда за вход в приложение 10 дней подряд
+                type: "streak",
                 threshold: 10,
                 icon: "Calendar",
                 imageUrl: "../awardsImg/calendar-svgrepo-com.svg",
@@ -44,7 +47,7 @@ export default function Account() {
             {
                 title: "On Fire",
                 description: "You maintained high activity for a whole week!",
-                type: "activity",               // Награда за высокую активность 7 дней подряд
+                type: "activity",
                 threshold: 7,
                 icon: "Fire",
                 imageUrl: "../awardsImg/fire-svgrepo-com.svg",
@@ -54,7 +57,7 @@ export default function Account() {
             {
                 title: "Flame Keeper",
                 description: "Your motivation is burning bright!",
-                type: "motivation",             // Награда за поддержание мотивации 30 дней
+                type: "motivation",
                 threshold: 30,
                 icon: "Flame",
                 imageUrl: "../awardsImg/flame-svgrepo-com.svg",
@@ -64,7 +67,7 @@ export default function Account() {
             {
                 title: "Strong Start",
                 description: "You completed your first workout session!",
-                type: "workout",                // Награда за первую тренировку
+                type: "workout",
                 threshold: 1,
                 icon: "FlexedBiceps",
                 imageUrl: "../awardsImg/flexed-biceps-medium-light-skin-tone-svgrepo-com.svg",
@@ -74,7 +77,7 @@ export default function Account() {
             {
                 title: "Healthy Meal",
                 description: "Logged your first healthy meal!",
-                type: "nutrition",              // Награда за первый приём здоровой пищи
+                type: "nutrition",
                 threshold: 1,
                 icon: "Meal",
                 imageUrl: "../awardsImg/meal-easter-svgrepo-com.svg",
@@ -84,7 +87,7 @@ export default function Account() {
             {
                 title: "Medalist",
                 description: "Earned 5 medals for achievements!",
-                type: "achievement",            // Награда за получение 5 достижений
+                type: "achievement",
                 threshold: 5,
                 icon: "Medal",
                 imageUrl: "../awardsImg/medal-svgrepo-com.svg",
@@ -94,7 +97,7 @@ export default function Account() {
             {
                 title: "Hydration Master",
                 description: "Tracked your water intake for 7 days straight!",
-                type: "streak",                 // Награда за учёт воды 7 дней подряд
+                type: "streak",
                 threshold: 7,
                 icon: "WaterDrop",
                 imageUrl: "../awardsImg/water-drop-svgrepo-com.svg",
@@ -104,7 +107,6 @@ export default function Account() {
         ];
 
         try {
-            // Use Promise.all with apiService.post for each award
             const awardPromises = awardsData.map((award) => {
                 return apiService.post(Quries.API.AWARDS.CREATE, award);
             });
@@ -114,8 +116,7 @@ export default function Account() {
         } catch (error) {
             console.error('Error uploading awards:', error);
         }
-    }
-
+    };
 
     return (
         <div className="flex flex-col gap-4">
@@ -171,25 +172,6 @@ export default function Account() {
                             <Button className="mt-4">Create your first post</Button>
                         </CardContent>
                     </Card>
-
-                    {/* Sample post for layout reference*/}
-
-                    {/*<Card>*/}
-                    {/*  <CardHeader>*/}
-                    {/*    <CardTitle>My Workout Today</CardTitle>*/}
-                    {/*    <CardDescription>Posted on April 15, 2023</CardDescription>*/}
-                    {/*  </CardHeader>*/}
-                    {/*  <CardContent>*/}
-                    {/*    <p>Completed a 5K run and feeling great! Making progress on my cardio goals.</p>*/}
-                    {/*    <div className="grid grid-cols-3 gap-2 mt-4">*/}
-                    {/*      <div className="bg-muted aspect-square rounded-md"></div>*/}
-                    {/*      <div className="bg-muted aspect-square rounded-md"></div>*/}
-                    {/*      <div className="bg-muted aspect-square rounded-md"></div>*/}
-                    {/*    </div>*/}
-                    {/*  </CardContent>*/}
-                    {/*</Card>*/}
-
-
                 </div>
             )}
 
@@ -198,40 +180,56 @@ export default function Account() {
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold">My Awards</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Sample awards */}
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6">
-                                <Award className="h-12 w-12 text-yellow-500"/>
-                                <h3 className="mt-4 font-semibold">First Milestone</h3>
-                                <p className="text-sm text-muted-foreground text-center mt-2">
-                                    Completed your first week of training
-                                </p>
-                            </CardContent>
-                        </Card>
+                    {loading && (
+                        <div className="text-center py-8">
+                            <p>Загрузка наград...</p>
+                        </div>
+                    )}
 
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6">
-                                <Award className="h-12 w-12 text-blue-500"/>
-                                <h3 className="mt-4 font-semibold">Weight Loss Champion</h3>
-                                <p className="text-sm text-muted-foreground text-center mt-2">
-                                    Lost your first 5 pounds
-                                </p>
-                            </CardContent>
-                        </Card>
+                    {error && (
+                        <div className="text-center py-8 text-red-500">
+                            <p>Error loading rewards: {error}</p>
+                        </div>
+                    )}
 
-                        <Card className="border-dashed border-2">
-                            <CardContent className="flex flex-col items-center p-6">
-                                <div className="rounded-full bg-muted p-3">
-                                    <Award className="h-6 w-6 text-muted-foreground"/>
+                    {!loading && !error && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {awards && awards.length > 0 ? (
+                                awards.map((award: any) => (
+                                    <Card key={award._id || award.id}>
+                                        <CardContent className="flex flex-col items-center p-6">
+                                            <Award className="h-12 w-12 text-yellow-500"/>
+                                            <h3 className="mt-4 font-semibold">
+                                                {award.title || award.name || 'Награда'}
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground text-center mt-2">
+                                                {award.description || 'Описание награды'}
+                                            </p>
+                                            {award.dateEarned && (
+                                                <p className="text-xs text-muted-foreground mt-2">
+                                                    Получена: {new Date(award.dateEarned).toLocaleDateString()}
+                                                </p>
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                ))
+                            ) : (
+                                <div className="col-span-full text-center py-8">
+                                    <Card className="border-dashed border-2">
+                                        <CardContent className="flex flex-col items-center p-6">
+                                            <div className="rounded-full bg-muted p-3">
+                                                <Award className="h-6 w-6 text-muted-foreground"/>
+                                            </div>
+                                            <h3 className="mt-4 font-semibold">Пока нет наград</h3>
+                                            <p className="text-sm text-muted-foreground text-center mt-2">
+                                                Продолжайте тренироваться, чтобы заработать награды!
+                                            </p>
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                                <h3 className="mt-4 font-semibold">More to unlock!</h3>
-                                <p className="text-sm text-muted-foreground text-center mt-2">
-                                    Keep up the good work to earn more awards
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -265,8 +263,7 @@ export default function Account() {
                                             <MinusCircle className="h-4 w-4"/>
                                         </Button>
 
-                                        <div
-                                            className="relative w-full h-2 bg-muted rounded-full overflow-hidden">
+                                        <div className="relative w-full h-2 bg-muted rounded-full overflow-hidden">
                                             <div
                                                 className={`absolute top-0 bottom-0 ${weightValue < 0 ? 'right-1/2' : 'left-1/2'} ${weightValue < 0 ? 'bg-blue-500' : 'bg-red-500'}`}
                                                 style={{
@@ -274,9 +271,7 @@ export default function Account() {
                                                     maxWidth: '50%'
                                                 }}
                                             />
-                                            <div
-                                                className="absolute top-0 bottom-0 left-1/2 w-4 h-4 bg-primary rounded-full -translate-x-1/2 -translate-y-1/4"
-                                            />
+                                            <div className="absolute top-0 bottom-0 left-1/2 w-4 h-4 bg-primary rounded-full -translate-x-1/2 -translate-y-1/4" />
                                         </div>
 
                                         <Button
@@ -290,16 +285,16 @@ export default function Account() {
 
                                     <div className="flex justify-between mt-2">
                                         <span className="text-sm text-muted-foreground">-20 lbs</span>
-                                        <span
-                                            className="text-sm font-medium">Current: {weightValue > 0 ? '+' : ''}{weightValue} lbs</span>
+                                        <span className="text-sm font-medium">
+                                            Current: {weightValue > 0 ? '+' : ''}{weightValue} lbs
+                                        </span>
                                         <span className="text-sm text-muted-foreground">+20 lbs</span>
                                     </div>
                                 </div>
 
                                 <div className="pt-4 border-t">
                                     <h3 className="font-medium mb-2">Weight History</h3>
-                                    <div
-                                        className="h-[200px] bg-muted rounded-md flex items-center justify-center">
+                                    <div className="h-[200px] bg-muted rounded-md flex items-center justify-center">
                                         <p className="text-sm text-muted-foreground">
                                             Your weight history chart will appear here
                                         </p>
