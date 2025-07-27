@@ -10,6 +10,8 @@ import {
   Square,
 } from "lucide-react"
 
+import { ROUTS } from "@/routes/routes" 
+
 import { NavMain } from "@/components/nav-main"
 // import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -24,6 +26,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+
 const data = {
   user: {
     name: "shadcn",
@@ -33,7 +36,7 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "/",
+      url: "/home",
       icon: Square,
       isActive: true,
       items: [],
@@ -56,25 +59,20 @@ const data = {
       icon: Frame,
       items: [],
     },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Profile",
-          url: "#",
-        },
-        {
-          title: "Membership",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-      ],
-    },
+{
+  title: "Settings",
+  url: "#", 
+  icon: Settings2,
+items: [
+  { title: "General", url: ROUTS.SETTINGS.GENERAL },
+  { title: "Team", url: ROUTS.SETTINGS.TEAM },
+  { title: "Billing", url: ROUTS.SETTINGS.BILLING },
+  { title: "Limits", url: ROUTS.SETTINGS.LIMITS },
+],
+
+
+}
+
   ],
   navSecondary: [
     {
@@ -90,6 +88,7 @@ const data = {
   ],
   projects: [],
 }
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
