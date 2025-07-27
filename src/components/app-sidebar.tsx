@@ -36,7 +36,7 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "/home",
+      url: ROUTS.HOME,
       icon: Square,
       isActive: true,
       items: [],

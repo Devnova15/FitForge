@@ -23,30 +23,25 @@ export function App() {
                 <Route path={ROUTS.REGISTER} element={<RegisterPage/>}/>
 
                 <Route element={<Layout/>}>
-                <Route element={<ProtectedRoute/>}>
-                    <Route path={ROUTS.HOME} element={<Home/>}/>
-                    <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>}/>
-                    <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>}/>
-
-                    <Route path={ROUTS.SETTINGS.ROOT} element={<div>Settings Page</div>}/>
-                    <Route path={ROUTS.SETTINGS.GENERAL} element={<General/>}/>
-                    <Route path={ROUTS.SETTINGS.TEAM} element={<Team/>}/>
-                    <Route path={ROUTS.SETTINGS.BILLING} element={<Billing/>}/>
-                    <Route path={ROUTS.SETTINGS.LIMITS} element={<Limits/>}/>
-
-
-                    <Route path={ROUTS.ACCOUNT} element={<Account/>}/>
-                    <Route path={ROUTS.SAVED} element={<div>Saved Page</div>}/>
-                    <Route path={ROUTS.EDIT} element={<div>Edit Page</div>}/>
-
-
+                    <Route element={<ProtectedRoute/>}>
                         <Route path={ROUTS.HOME} element={<Home/>}/>
                         <Route path={ROUTS.DASHBOARD} element={<div>Dashboard Page</div>}/>
                         <Route path={ROUTS.PROFILE} element={<div>Profile Page</div>}/>
-                        {/*<Route path={ROUTS.SETTINGS} element={<div>Settings Page</div>}/>*/}
+
+                        <Route path={ROUTS.SETTINGS.ROOT} element={<div>Settings Page</div>}/>
+                        <Route path={ROUTS.SETTINGS.GENERAL} element={<General/>}/>
+                        <Route path={ROUTS.SETTINGS.TEAM} element={<Team/>}/>
+                        <Route path={ROUTS.SETTINGS.BILLING} element={<Billing/>}/>
+                        <Route path={ROUTS.SETTINGS.LIMITS} element={<Limits/>}/>
+
+
                         <Route path={ROUTS.ACCOUNT} element={<Account/>}/>
                         <Route path={ROUTS.SAVED} element={<div>Saved Page</div>}/>
                         <Route path={ROUTS.EDIT} element={<div>Edit Page</div>}/>
+
+                        <Route path={'*'}></Route>
+
+
                     </Route>
                 </Route>
             </Routes>
