@@ -27,6 +27,10 @@ export const Quries = {
             GET_ALL: "/api/posts",
             GET_BY_ID: (id: string) => `/api/posts/${id}`,
         },
+        UPLOAD: {
+            IMAGES: "/api/upload/images",
+            DELETE_IMAGE: "/api/upload/delete",
+        },
         COMMENTS: {
             CREATE: "/api/comments",
             UPDATE: (id: string) => `/api/comments/${id}`,

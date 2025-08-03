@@ -1,4 +1,3 @@
-
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Award, Image, Plus, MinusCircle, PlusCircle} from "lucide-react";
 import {Button} from "@/components/ui/button";
@@ -6,11 +5,25 @@ import {useState} from "react";
 import {apiService} from "@/api/api";
 import {Quries} from "@/api/quries";
 import useAwards from "@/api/useAwards/useAwards";
+import { usePosts } from "@/hooks/usePosts";
+import PostCard from "@/components/PostCard/PostCard";
+import CreatePostModal from "@/components/PostModal/CreatePostModal.tsx";
 
 export default function Account() {
     const [activeTab, setActiveTab] = useState("posts");
     const [weightValue, setWeightValue] = useState(0);
-    const { awards, loading, error } = useAwards();
+    const { awards, loading: awardsLoading, error: awardsError } = useAwards();
+    
+    const { 
+        posts, 
+        loading: postsLoading, 
+        error: postsError,
+        toggleLike, 
+        deletePost, 
+        refetch: refetchPosts 
+    } = usePosts();
+
+    const currentUserId = localStorage.getItem('userId') || undefined;
 
     const uploadAwards = async () => {
         const awardsData = [
@@ -153,46 +166,76 @@ export default function Account() {
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold">My Posts</h2>
-                        <Button onClick={uploadAwards} className="flex items-center gap-2">
-                            <Plus className="h-4 w-4"/> Add New Post
-                        </Button>
+                        <CreatePostModal onPostCreated={refetchPosts} />
                     </div>
 
-                    {/* Empty state for posts */}
-                    <Card className="border-dashed border-2">
-                        <CardContent className="flex flex-col items-center justify-center p-6">
-                            <div className="rounded-full bg-muted p-3">
-                                <Image className="h-6 w-6 text-muted-foreground"/>
-                            </div>
-                            <h3 className="mt-4 text-lg font-semibold">No posts yet</h3>
-                            <p className="text-sm text-muted-foreground text-center mt-2">
-                                Share your fitness journey by creating your first post.
-                                You'll be able to add photos and track your progress.
-                            </p>
-                            <Button className="mt-4">Create your first post</Button>
-                        </CardContent>
-                    </Card>
+                    {postsLoading && (
+                        <div className="text-center py-8">
+                            <p>Loading posts...</p>
+                        </div>
+                    )}
+
+                    {postsError && (
+                        <div className="text-center py-8 text-red-500">
+                            <p>Error loading posts: {postsError}</p>
+                        </div>
+                    )}
+
+                    {!postsLoading && !postsError && posts.length > 0 && (
+                        <div className="space-y-4">
+                            {posts.map((post) => (
+                                <PostCard
+                                    key={post._id}
+                                    post={post}
+                                    currentUserId={currentUserId}
+                                    onLike={toggleLike}
+                                    onDelete={deletePost}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {!postsLoading && !postsError && posts.length === 0 && (
+                        <Card className="border-dashed border-2">
+                            <CardContent className="flex flex-col items-center justify-center p-6">
+                                <div className="rounded-full bg-muted p-3">
+                                    <Image className="h-6 w-6 text-muted-foreground"/>
+                                </div>
+                                <h3 className="mt-4 text-lg font-semibold">No posts yet</h3>
+                                <p className="text-sm text-muted-foreground text-center mt-2">
+                                    Share your fitness journey by creating your first post.
+                                    You'll be able to add photos and track your progress.
+                                </p>
+                                <CreatePostModal onPostCreated={refetchPosts} />
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
             )}
 
             {/* Awards Section */}
             {activeTab === "awards" && (
                 <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">My Awards</h2>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold">My Awards</h2>
+                        <Button onClick={uploadAwards} variant="outline" className="flex items-center gap-2">
+                            <Plus className="h-4 w-4"/> Upload Test Awards
+                        </Button>
+                    </div>
 
-                    {loading && (
+                    {awardsLoading && (
                         <div className="text-center py-8">
-                            <p>Загрузка наград...</p>
+                            <p>Loading awards...</p>
                         </div>
                     )}
 
-                    {error && (
+                    {awardsError && (
                         <div className="text-center py-8 text-red-500">
-                            <p>Error loading rewards: {error}</p>
+                            <p>Error loading awards: {awardsError}</p>
                         </div>
                     )}
 
-                    {!loading && !error && (
+                    {!awardsLoading && !awardsError && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {awards && awards.length > 0 ? (
                                 awards.map((award: any) => (
@@ -200,14 +243,14 @@ export default function Account() {
                                         <CardContent className="flex flex-col items-center p-6">
                                             <Award className="h-12 w-12 text-yellow-500"/>
                                             <h3 className="mt-4 font-semibold">
-                                                {award.title || award.name || 'Награда'}
+                                                {award.title || award.name || 'Award'}
                                             </h3>
                                             <p className="text-sm text-muted-foreground text-center mt-2">
-                                                {award.description || 'Описание награды'}
+                                                {award.description || 'Award description'}
                                             </p>
                                             {award.dateEarned && (
                                                 <p className="text-xs text-muted-foreground mt-2">
-                                                    Получена: {new Date(award.dateEarned).toLocaleDateString()}
+                                                    Earned: {new Date(award.dateEarned).toLocaleDateString()}
                                                 </p>
                                             )}
                                         </CardContent>
@@ -220,9 +263,9 @@ export default function Account() {
                                             <div className="rounded-full bg-muted p-3">
                                                 <Award className="h-6 w-6 text-muted-foreground"/>
                                             </div>
-                                            <h3 className="mt-4 font-semibold">Пока нет наград</h3>
+                                            <h3 className="mt-4 font-semibold">No awards yet</h3>
                                             <p className="text-sm text-muted-foreground text-center mt-2">
-                                                Продолжайте тренироваться, чтобы заработать награды!
+                                                Keep working out to earn awards!
                                             </p>
                                         </CardContent>
                                     </Card>
@@ -253,7 +296,6 @@ export default function Account() {
                                         <span>Weight Gain</span>
                                     </div>
 
-                                    {/* Custom slider implementation */}
                                     <div className="flex items-center justify-center gap-4 my-6">
                                         <Button
                                             variant="outline"

@@ -44,8 +44,22 @@ export function LoginForm({
                 password: formData.password
             });
 
+            console.log('🔍 Login response:', data); // Отладка
+
             if (data.token) {
                 localStorage.setItem('token', data.token);
+                
+                // Сохраняем ID пользователя из ответа вашего бэкенда
+                if (data.user && data.user._id) {
+                    localStorage.setItem('userId', data.user._id);
+                    console.log('✅ Saved userId:', data.user._id);
+                } else if (data.userId) {
+                    localStorage.setItem('userId', data.userId);
+                    console.log('✅ Saved userId:', data.userId);
+                } else {
+                    console.warn('⚠️ No userId found in login response');
+                }
+                
                 toast.success('Login successful!');
                 window.location.href = ROUTS.HOME;
             } else {
@@ -91,17 +105,17 @@ export function LoginForm({
                                         Forgot your password?
                                     </a>
                                 </div>
-                                <Input 
-                                    id="password" 
-                                    type="password" 
+                                <Input
+                                    id="password"
+                                    type="password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
                                 />
                             </div>
                             <div className="flex flex-col gap-3">
-                                <Button 
-                                    type="submit" 
+                                <Button
+                                    type="submit"
                                     className="w-full"
                                     disabled={isLoading}
                                 >
