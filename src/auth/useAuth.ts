@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {Quries} from "@/api/quries.ts";
 
-const BASE_API_URL = "http://localhost:4000"; // это твой backend
+const BASE_API_URL = "http://localhost:4000"; 
 
 export function useAuth() {
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ export function useAuth() {
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.message || "Ошибка при регистрации");
+                throw new Error(error.message || "Error during registration");
             }
 
             const data = await response.json();
@@ -43,7 +43,7 @@ export function useAuth() {
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.message || "Ошибка при входе");
+                throw new Error(error.message || "Error logging in");
             }
 
             const data = await response.json();

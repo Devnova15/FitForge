@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input.tsx"
 import { Label } from "@/components/ui/label.tsx"
 import { ROUTS } from "@/routes/routes.tsx";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Dialog,
     DialogContent,
@@ -45,7 +45,7 @@ export function RegisterForm({
         setError("");
 
         if (formData.password !== formData.confirmPassword) {
-            setError("Пароли не совпадают");
+            setError("The passwords do not match");
             return;
         }
 
@@ -56,7 +56,7 @@ export function RegisterForm({
                 navigate(ROUTS.LOGIN);
             }, 2000);
         } catch (err) {
-            setError("Ошибка при регистрации");
+            setError("Error during registration");
         }
     };
 
@@ -72,9 +72,9 @@ export function RegisterForm({
             <div className={cn("flex flex-col gap-6", className)} {...props}>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Регистрация нового аккаунта</CardTitle>
+                        <CardTitle>Registering a new account</CardTitle>
                         <CardDescription>
-                            Введите email и пароль для регистрации
+                           Enter your email and password to register
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -93,7 +93,7 @@ export function RegisterForm({
                                     />
                                 </div>
                                 <div className="grid gap-3">
-                                    <Label htmlFor="password">Пароль</Label>
+                                    <Label htmlFor="password">Password</Label>
                                     <Input
                                         id="password"
                                         name="password"
@@ -105,7 +105,7 @@ export function RegisterForm({
                                 </div>
 
                                 <div className="grid gap-3">
-                                    <Label htmlFor="confirmPassword">Подтвердите пароль</Label>
+                                    <Label htmlFor="confirmPassword">Confirm password</Label>
                                     <Input
                                         id="confirmPassword"
                                         name="confirmPassword"
@@ -122,17 +122,17 @@ export function RegisterForm({
 
                                 <div className="flex flex-col gap-3">
                                     <Button type="submit" className="w-full">
-                                        Зарегистрироваться
+                                        Register
                                     </Button>
                                     <Button variant="outline" className="w-full">
-                                        Войти через Google
+                                        Login with Google
                                     </Button>
                                 </div>
                             </div>
                             <div className="mt-4 text-center text-sm">
-                                Уже есть аккаунт?{" "}
+                                Already have an account?{" "}
                                 <Link to={ROUTS.LOGIN} className="underline underline-offset-4">
-                                    Войти
+                                    Login
                                 </Link>
                             </div>
                         </form>
@@ -143,10 +143,9 @@ export function RegisterForm({
             <Dialog open={isSuccess} onOpenChange={setIsSuccess}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Регистрация успешна!</DialogTitle>
+                        <DialogTitle>Registration successful!</DialogTitle>
                         <DialogDescription>
-                            Ваш аккаунт успешно создан. Сейчас вы будете перенаправлены на страницу входа.
-                        </DialogDescription>
+Your account has been successfully created. You will now be redirected to the login page.                        </DialogDescription>
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
